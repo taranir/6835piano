@@ -86,7 +86,7 @@ var WhiteKeyView = KeyView.extend({
   className: 'white-key',
   render: function() {
     console.log("rendering key " + this.model.get("number"));
-    $(this.el).css("left", parseInt(this.model.get("typeNumber"))*WHITE_KEY_WIDTH);
+    $(this.el).css("left", parseInt(this.model.get("typeNumber"))*WHITE_KEY_WIDTH+"px");
     return this;
   }
 });
@@ -95,7 +95,7 @@ var BlackKeyView = KeyView.extend({
   className: 'black-key',
   render: function() {
     console.log("rendering key " + this.model.get("number"));
-    $(this.el).css("left", parseInt(this.model.get("typeNumber"))*BLACK_KEY_WIDTH);
+    $(this.el).css("left", getBlackKeyPosition(this.model.get("typeNumber"), this.model.get("number"))+"px");
     return this;
   }
 });

@@ -12,7 +12,8 @@ var Finger = Backbone.Model.extend({
 var Key = Backbone.Model.extend({
   defaults: {
     number: "N/A", //from 0-87,
-    typeNumber: "N/A" //index into whiteKeys, blackKeys; ie: this is the 5th white key
+    typeNumber: "N/A", //index into whiteKeys, blackKeys; ie: this is the 5th white key
+    pressed: false
   },
   initialize: function() {
 
