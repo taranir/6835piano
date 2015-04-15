@@ -143,7 +143,7 @@ var HandsView = Backbone.View.extend({
 
     var fingers = [];
     _.each(_.range(NUM_FINGERS), function(num) {
-      var finger = new Finger({id: num});
+      var finger = new Finger({id: num, type: 0});
       fingers.push(finger);
     });
 
@@ -160,7 +160,7 @@ var HandsView = Backbone.View.extend({
   },
 
   addFinger: function(finger) {
-    var fingerView = new FingerView(finger);
+    var fingerView = new FingerView({model: finger});
     this.fingerViews.push(fingerView);
     $(this.el).append(fingerView.render().el);
   },
@@ -176,6 +176,7 @@ var HandsView = Backbone.View.extend({
         var top = fingers[num].screenPosition()[2] + SCREENPOSITION_YOFFSET;
         var left = fingers[num].screenPosition()[0];
         currentFinger.setPosition(top, left);
+        currentFinger.setType(fingers[num].type);
         currentFinger.show();
       }
       else {
@@ -193,14 +194,27 @@ var FingerView = Backbone.View.extend({
   },
 
   initialize: function() {
-    _.bindAll(this, 'render', 'hide', 'show', 'setPosition');
+    _.bindAll(this, 'render', 'hide', 'show', 'setPosition', 'setType');
+    classString = "finger-" + this.model.get("type");
+    $(this.el).addClass(classString);
     // this.render();
   },
 
   render: function() {
-    var classString = "finger-" + this.model.get("type");
-    $(this.el).addClass(classString);
     return this;
+  },
+
+  //type indicates what kind of finger this is, 0-4
+  setType: function(type) { 
+    if (parseInt(type) != parseInt(this.model.get("type"))) {
+      var classString = "finger-" + this.model.get("type");
+      $(this.el).removeClass(classString);
+
+      this.model.set("type", type);
+      classString = "finger-" + this.model.get("type");
+      $(this.el).addClass(classString);
+    }
+
   },
 
   hide: function() {
