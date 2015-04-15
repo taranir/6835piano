@@ -34,6 +34,35 @@ var getBlackKeyPosition = function(bk_index, bk_overall) { //bk_index is index i
         return position;
 }
 
+var getKeyString = function(overall) {
+        switch (overall % 12) {
+                case 0:
+                        return "A"
+                case 1:
+                        return "A#/Bb"
+                case 2:
+                        return "B"
+                case 3:
+                        return "C"
+                case 4:
+                        return "C#/Db"
+                case 5:
+                        return "D"
+                case 6:
+                        return "D#/Eb"
+                case 7:
+                        return "E"
+                case 8:
+                        return "F"
+                case 9:
+                        return "F#/Gb"
+                case 10:
+                        return "G"
+                case 11:
+                        return "G#/Ab"
+        }
+}
+
 //key = value from 0 to 87
 var playNote = function(key, volume) {
  //insert MIDI.js stuff??

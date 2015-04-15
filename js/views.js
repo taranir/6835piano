@@ -145,8 +145,13 @@ var HandsView = Backbone.View.extend({
   initialize: function() {
     _.bindAll(this, 'render', 'setFingers'); //every function that uses "this" as the current object should be in here
 
-    this.collection = new Hands();
-    this.collection.bind('play', this.playNote);
+    var fingers = [];
+    _.each(_.range(10), function(num) {
+      var finger = new Finger({number: num});
+      fingers.push(finger);
+    });
+
+    this.collection = new Hands(fingers);
 
     this.render();
   },
@@ -154,18 +159,20 @@ var HandsView = Backbone.View.extend({
   render: function() {
     var self = this;
     _(this.collection.models).each(function(item) {
-      self.appendItem(item);
+      self.addFinger(item);
     }, this);
   },
 
-  setFingers: function() {
+  addFinger: function(finger) {
+    var fingerView = new FingerView(finger);
+    $(this.el).append(fingerView.render().el);
+  },
 
+  setFingers: function(fingers) {
+  
   }
 
 });
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 var FingerView = Backbone.View.extend({
   className: "finger",
