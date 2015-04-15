@@ -1,6 +1,10 @@
 var FingerPoint = Backbone.Model.extend({
   defaults: {
 
+  },
+
+  initialize: function() {
+
   }
 });
 
@@ -11,6 +15,14 @@ var Key = Backbone.Model.extend({
   }
 });
 
+
+var WhiteKey = Key.extend({
+
+});
+
+var BlackKey = Key.extend({
+
+});
 /////////////////////////////////////////////////////////////////////////////
 
 var FingerPoints = Backbone.Collection.extend({

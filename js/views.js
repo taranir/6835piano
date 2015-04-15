@@ -7,7 +7,9 @@ var KeyboardView = Backbone.View.extend({
   },
 
   initialize: function() {
-    _.bindAll(this, 'render');
+    _.bindAll(this, 
+              'render'
+              ); //every function that uses "this" as the current object should be in here
 
     this.collection = new Keyboard();
     this.collection.bind('play', this.playNote);
@@ -38,7 +40,9 @@ var HandsView = Backbone.View.extend({
   },
 
   initialize: function() {
-    _.bindAll(this, 'render');
+    _.bindAll(this, 
+              'render'
+              ); //every function that uses "this" as the current object should be in here
 
     this.collection = new FingerPoints();
     this.collection.bind('play', this.playNote);
