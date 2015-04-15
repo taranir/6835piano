@@ -62,6 +62,7 @@ var KeyboardView = Backbone.View.extend({
 
 });
 
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -69,25 +70,48 @@ var KeyboardView = Backbone.View.extend({
 var KeyView = Backbone.View.extend({
   className: "key",
   events: {
-    'press': 'play'
+    'mousedown': 'highlight',
+    'mouseup': 'unhighlight'
   },
 
   initialize: function() {
-    _.bindAll(this, 'render');
+    _.bindAll(this, 'render', 'highlight');
   },
 
   render: function() {
     this.el.id = 'key-' + this.model.get('number');
     return this;
+  },
+
+  highlight: function() {
+    //defined in subclass
+  },
+
+  unhighlight: function() {
+    //defined in subclass
   }
 });
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 var WhiteKeyView = KeyView.extend({
   className: 'white-key',
   render: function() {
     console.log("rendering key " + this.model.get("number"));
+    $(this.el).addClass("key");
     $(this.el).css("left", parseInt(this.model.get("typeNumber"))*WHITE_KEY_WIDTH+"px");
     return this;
+  },
+  highlight: function() {
+    console.log("highlight");
+    $(this.el).addClass("highlighted-white-key");
+  },
+  unhighlight: function() {
+    $(this.el).removeClass("highlighted-white-key");
   }
 });
 
@@ -95,8 +119,16 @@ var BlackKeyView = KeyView.extend({
   className: 'black-key',
   render: function() {
     console.log("rendering key " + this.model.get("number"));
+    $(this.el).addClass("key");
     $(this.el).css("left", getBlackKeyPosition(this.model.get("typeNumber"), this.model.get("number"))+"px");
     return this;
+  },
+  highlight: function() {
+    console.log("highlight");
+    $(this.el).addClass("highlighted-black-key");
+  },
+  unhighlight: function() {
+    $(this.el).removeClass("highlighted-black-key");
   }
 });
 
