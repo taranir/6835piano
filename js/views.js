@@ -1,4 +1,3 @@
-
 var whiteKeyboard;
 var blackKeyboard;
 var KeyboardView = Backbone.View.extend({
@@ -101,7 +100,6 @@ var KeyView = Backbone.View.extend({
 var WhiteKeyView = KeyView.extend({
   className: 'white-key',
   render: function() {
-    console.log("rendering key " + this.model.get("number"));
     $(this.el).addClass("key");
     $(this.el).css("left", parseInt(this.model.get("typeNumber"))*WHITE_KEY_WIDTH+"px");
     return this;
@@ -117,13 +115,11 @@ var WhiteKeyView = KeyView.extend({
 var BlackKeyView = KeyView.extend({
   className: 'black-key',
   render: function() {
-    console.log("rendering key " + this.model.get("number"));
     $(this.el).addClass("key");
     $(this.el).css("left", getBlackKeyPosition(this.model.get("typeNumber"), this.model.get("number"))+"px");
     return this;
   },
   highlight: function() {
-    console.log("highlight");
     $(this.el).addClass("highlighted-black-key");
   },
   unhighlight: function() {
@@ -137,17 +133,17 @@ var BlackKeyView = KeyView.extend({
 
 var HandsView = Backbone.View.extend({
   el: $("#hands"),
-
+  fingerViews: [],
   events: {
 
   },
 
   initialize: function() {
-    _.bindAll(this, 'render', 'setFingers'); //every function that uses "this" as the current object should be in here
+    _.bindAll(this, 'render', 'setFingers', 'addFinger'); //every function that uses "this" as the current object should be in here
 
     var fingers = [];
-    _.each(_.range(10), function(num) {
-      var finger = new Finger({number: num});
+    _.each(_.range(NUM_FINGERS), function(num) {
+      var finger = new Finger({id: num});
       fingers.push(finger);
     });
 
@@ -165,11 +161,27 @@ var HandsView = Backbone.View.extend({
 
   addFinger: function(finger) {
     var fingerView = new FingerView(finger);
+    this.fingerViews.push(fingerView);
     $(this.el).append(fingerView.render().el);
   },
 
   setFingers: function(fingers) {
-  
+    var fingerViews = this.fingerViews; // for scope of _.each loop
+    var numShownFingers = fingers.length;
+    var totalFingers = _.range(fingerViews.length);
+    _.each(totalFingers, function(num) {
+      var currentFinger = fingerViews[num];
+      if (num < numShownFingers) {
+        //calculate top and left from finger data
+        var top = fingers[num].screenPosition()[2] + SCREENPOSITION_YOFFSET;
+        var left = fingers[num].screenPosition()[0];
+        currentFinger.setPosition(top, left);
+        currentFinger.show();
+      }
+      else {
+        currentFinger.hide();
+      }
+    });
   }
 
 });
@@ -181,12 +193,27 @@ var FingerView = Backbone.View.extend({
   },
 
   initialize: function() {
-    _.bindAll(this, 'render');
-    this.render();
+    _.bindAll(this, 'render', 'hide', 'show', 'setPosition');
+    // this.render();
   },
 
   render: function() {
+    var classString = "finger-" + this.model.get("type");
+    $(this.el).addClass(classString);
     return this;
   },
+
+  hide: function() {
+    $(this.el).hide();
+  },
+
+  show: function() {
+    $(this.el).show();
+  },
+
+  setPosition: function(top, left) {
+    $(this.el).css("top", top);
+    $(this.el).css("left", left);
+  }
 })
 

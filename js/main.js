@@ -10,7 +10,15 @@ Leap.loop(controllerOptions, function(frame) {
   // } else {
   //   var fingersLength = frame.fingers.length;
   // }
-  console.log(frame.fingers);
-  handsView.setFingers(frame.fingers);
 
-});
+  var sortedFingers = frame.fingers.sort(function(a, b) {
+    return a.id - b.id;
+  });
+
+  if (frame.fingers.length > 0) {
+    console.log(sortedFingers);
+  } 
+  
+  handsView.setFingers(sortedFingers);
+
+}).use('screenPosition', {scale: LEAPSCALE});

@@ -2,6 +2,9 @@ var WHITE_KEY_WIDTH = 80;
 var BLACK_KEY_WIDTH = 60;
 var WHITE_KEY_HEIGHT = 400;
 var BLACK_KEY_HEIGHT = 220;
+var NUM_FINGERS = 10;
+var LEAPSCALE = 0.6;
+var SCREENPOSITION_YOFFSET = 200;
 
 //key = value from 0 to 87
 var isBlack = function(key) {
