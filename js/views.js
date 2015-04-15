@@ -70,7 +70,7 @@ var KeyView = Backbone.View.extend({
   className: "key",
   events: {
     'mousedown': 'highlight',
-    'mouseup': 'unhighlight'
+    'mouseup': 'unhighlight',
   },
 
   initialize: function() {

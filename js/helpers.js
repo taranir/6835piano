@@ -65,12 +65,3 @@ var getKeyString = function(overall) {
                         return "G#/Ab"
         }
 }
-
-//key = value from 0 to 87
-var playNote = function(key, volume) {
- //insert MIDI.js stuff??
-}
-
-var stopNote = function(key, volume) {
-
-}

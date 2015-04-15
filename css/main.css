@@ -77,6 +77,10 @@ h1 {
   background-color: #694864;
 }
 
+.highlighted-finger {
+  background-color: #694864;
+}
+
 .finger {
   border-radius: 50%;
   width: 50px;
