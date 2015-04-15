@@ -1,0 +1,48 @@
+body {
+  background-color: #222222;
+  font-family: 'Oxygen', sans-serif;
+}
+
+#header {
+  padding: 20px;
+  margin-bottom: 150px;
+  margin-left: 80px;
+}
+
+h1 {
+  color: #e8e0ba;
+}
+
+#keyboard {
+  height: 400px;
+  width: 4400px;
+  background-color: #e8e0ba;
+}
+
+.key {
+  width: 50px;
+  height: 400px;
+  display: inline-block;
+  border: 1px #D2CDC7 solid;
+  background-color: #ede8e1;
+}
+
+.white-key {
+  background-color: #ede8e1;
+  width: 100px;
+  height: 400px;
+  border: 1px #D2CDC7 solid;
+  border-radius: 5px;
+}
+
+.black-key {
+  background-color: #523C54;
+}
+
+
+.finger {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  background-color: #3281ab;
+}
