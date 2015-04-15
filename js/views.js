@@ -107,7 +107,6 @@ var WhiteKeyView = KeyView.extend({
     return this;
   },
   highlight: function() {
-    console.log("highlight");
     $(this.el).addClass("highlighted-white-key");
   },
   unhighlight: function() {
@@ -144,7 +143,7 @@ var HandsView = Backbone.View.extend({
   },
 
   initialize: function() {
-    _.bindAll(this, 'render'); //every function that uses "this" as the current object should be in here
+    _.bindAll(this, 'render', 'setFingers'); //every function that uses "this" as the current object should be in here
 
     this.collection = new Hands();
     this.collection.bind('play', this.playNote);
@@ -159,6 +158,9 @@ var HandsView = Backbone.View.extend({
     }, this);
   },
 
+  setFingers: function() {
+
+  }
 
 });
 

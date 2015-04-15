@@ -5,9 +5,12 @@ var handsView = new HandsView();
 var controllerOptions = {enableGestures: true};
 
 Leap.loop(controllerOptions, function(frame) {
-  if (frame.hands === undefined ) {
-    var handsLength = 0;
-  } else {
-    var handsLength = frame.hands.length;
-  }
-})
+  // if (frame.fingers === undefined ) {
+  //   var fingersLength = 0;
+  // } else {
+  //   var fingersLength = frame.fingers.length;
+  // }
+  console.log(frame.fingers);
+  handsView.setFingers(frame.fingers);
+
+});
