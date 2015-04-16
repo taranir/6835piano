@@ -251,8 +251,6 @@ var FingerView = Backbone.View.extend({
   setPosition: function(top, left) {
     this.top = top;
     this.left = left;
-    var scrollOffset = $("#content").scrollLeft();
-    console.log("scrolloffset: " + scrollOffset);
     $(this.el).css("top", top);
     $(this.el).css("left", left + scrollOffset);
   },
