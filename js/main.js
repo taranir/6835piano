@@ -22,11 +22,14 @@ Leap.loop(controllerOptions, function(frame) {
     
     handsView.setFingers(sortedFingers);
 
+
     //filter out only keyTap gestures
     var gestures = _.filter(frame.gestures, function(gesture) {
       return (gesture.type == "keyTap");
     });
-
+    if (gestures.length > 0) {
+      console.log(gestures.length + " gestures");
+    }
     if (prevGestures) {
       //look for prev gestures that no longer exist
       var endedGestures = _.difference(prevGestures, gestures);

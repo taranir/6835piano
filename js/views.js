@@ -103,9 +103,11 @@ var WhiteKeyView = KeyView.extend({
     return this;
   },
   highlight: function() {
+    playNote(this.model.get("number"));
     $(this.el).addClass("highlighted-white-key");
   },
   unhighlight: function() {
+    stopNote(this.model.get("number"));
     $(this.el).removeClass("highlighted-white-key");
   }
 });
@@ -118,9 +120,11 @@ var BlackKeyView = KeyView.extend({
     return this;
   },
   highlight: function() {
+    playNote(this.model.get("number"));
     $(this.el).addClass("highlighted-black-key");
   },
   unhighlight: function() {
+    stopNote(this.model.get("number"));
     $(this.el).removeClass("highlighted-black-key");
   }
 });
@@ -255,7 +259,7 @@ var FingerView = Backbone.View.extend({
     // console.log("FINGER EVENT START " + gesture.id);
     //if this finger is one of the ones in the gesture
     if (_.indexOf(gesture.pointableIds, this.model.get("currentID")) > -1) {
-      console.log("FINGER EVENT START " + gesture.id);
+      // console.log("FINGER EVENT START " + gesture.id);
       if (this.top && this.left) {
         //get the element this finger is hovering over
         var offset = $("#content").offset();
@@ -271,7 +275,7 @@ var FingerView = Backbone.View.extend({
   releaseKey: function(gesture) {
     //if this finger is one of the ones in the gesture
     if (_.indexOf(gesture.pointableIds, this.model.get("currentID")) > -1) {
-      console.log("FINGER EVENT END " + gesture.id);
+      // console.log("FINGER EVENT END " + gesture.id);
       var key = this.model.get("currentKey");
       if (key) {
         $(key).trigger("mouseup");
