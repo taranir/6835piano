@@ -11,6 +11,12 @@ body {
 
 h1 {
   color: #e8e0ba;
+  font-size: 56px;
+}
+
+h2 {
+  color: #694864;
+  font-size: 28px;
 }
 
 #content {
@@ -24,8 +30,6 @@ h1 {
 
 #hands {
   pointer-events: none;
-  height: 400px;
-  width: 100%;
   position: absolute;
   top: 0;
   left: 0;
@@ -40,6 +44,7 @@ h1 {
   top: 0;
   left: 0;
   z-index: 7;
+  overflow-y: hidden;
 }
 
 .key {
@@ -92,6 +97,7 @@ h1 {
   top: 0;
   left: 0;
   opacity: 0.6;
+  display: none;
 }
 
 .finger-0 {
