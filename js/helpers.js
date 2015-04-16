@@ -18,20 +18,20 @@ var getBlackKeyPosition = function(bk_index, bk_overall) { //bk_index is index i
         position += sets * WHITE_KEY_WIDTH * 7;
         var index_in_set = bk_index % 5;
         switch (index_in_set) {
+                case 0:
+                        position += WHITE_KEY_WIDTH - 1/3 * BLACK_KEY_WIDTH;
+                        break;
                 case 1:
-                        position += WHITE_KEY_WIDTH - 2/3 * BLACK_KEY_WIDTH;
+                        position += WHITE_KEY_WIDTH * 3 - 2/3 * BLACK_KEY_WIDTH;
                         break;
                 case 2:
-                        position += WHITE_KEY_WIDTH * 2 - 1/3 * BLACK_KEY_WIDTH;
+                        position += WHITE_KEY_WIDTH * 4 - 1/3 * BLACK_KEY_WIDTH;
                         break;
                 case 3:
-                        position += WHITE_KEY_WIDTH * 4 - 2/3 * BLACK_KEY_WIDTH;
+                        position += WHITE_KEY_WIDTH * 6 - 2/3 * BLACK_KEY_WIDTH;
                         break;
                 case 4:
-                        position += WHITE_KEY_WIDTH * 5 - 1/2 * BLACK_KEY_WIDTH;
-                        break;
-                case 0:
-                        position += WHITE_KEY_WIDTH * 6 - 1/3 * BLACK_KEY_WIDTH;
+                        position += WHITE_KEY_WIDTH * 7 - 1/2 * BLACK_KEY_WIDTH;
                         break;
         }
         return position;
