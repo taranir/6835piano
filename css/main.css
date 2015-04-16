@@ -23,6 +23,7 @@ h1 {
 }
 
 #hands {
+  pointer-events: none;
   height: 400px;
   width: 100%;
   position: absolute;
@@ -82,6 +83,7 @@ h1 {
 }
 
 .finger {
+  pointer-events: none;
   border-radius: 50%;
   width: 50px;
   height: 50px;

@@ -30,19 +30,28 @@ Leap.loop(controllerOptions, function(frame) {
     if (prevGestures) {
       //look for prev gestures that no longer exist
       var endedGestures = _.difference(prevGestures, gestures);
-      _.each(endedGestures, function(gesture) {
-          console.log("keyTapEnd, id: " + gesture.id + ", duration: " + gesture.duration);
-          keyboardView.trigger("keyTapEnd", gesture);
-          handsView.trigger("keyTapEnd", gesture);
-      }); 
+      if (endedGestures.length > 0) {
+        // console.log("ended Gestures:");
+        // console.log(endedGestures);
+        _.each(endedGestures, function(gesture) {
+            // console.log("keyTapEnd, id: " + gesture.id + ", duration: " + gesture.duration);
+            // console.log(gesture);
+            Backbone.trigger("keyTapEnd", gesture);
+            Backbone.trigger("keyTapEnd", gesture);
+        }); 
+      }
+
 
       //look for new gestures that aren't in prev gestures
       var startedGestures = _.difference(gestures, prevGestures);
-      _.each(startedGestures, function(gesture) {
-          console.log("keyTapStart, id: " + gesture.id);
-          keyboardView.trigger("keyTapStart", gesture);
-          handsView.trigger("keyTapStart", gesture);
-      })
+      if (startedGestures.length > 0) {
+        _.each(startedGestures, function(gesture) {
+            //console.log("keyTapStart, id: " + gesture.id);
+            Backbone.trigger("keyTapStart", gesture);
+            Backbone.trigger("keyTapStart", gesture);
+        });
+      }
+
     }
 
     prevGestures = gestures;

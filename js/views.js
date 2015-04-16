@@ -1,13 +1,11 @@
 var whiteKeyboard;
 var blackKeyboard;
 var KeyboardView = Backbone.View.extend({
-  el: $("#keyboard"),
-
   events: {
-
   },
 
   initialize: function() {
+    this.el = $("#keyboard");
     _.bindAll(this, 'render', 'addKey'); //every function that uses "this" as the current object should be in here
 
     //create 88 new keys
@@ -132,14 +130,15 @@ var BlackKeyView = KeyView.extend({
 
 
 var HandsView = Backbone.View.extend({
-  el: $("#hands"),
   fingerViews: [],
-  events: {
-
-  },
+  // events: {
+  //   "keyTapStart": "keyTapStart",
+  //   "keyTapEnd": "keyTapEnd"
+  // },
 
   initialize: function() {
-    _.bindAll(this, 'render', 'setFingers', 'addFinger'); //every function that uses "this" as the current object should be in here
+    this.el = $("#hands");
+    _.bindAll(this, 'render', 'setFingers', 'addFinger', 'keyTapStart', 'keyTapEnd'); //every function that uses "this" as the current object should be in here
 
     var fingers = [];
     _.each(_.range(NUM_FINGERS), function(num) {
@@ -177,24 +176,41 @@ var HandsView = Backbone.View.extend({
         var left = fingers[num].screenPosition()[0];
         currentFinger.setPosition(top, left);
         currentFinger.setType(fingers[num].type);
+        currentFinger.setCurrentID(fingers[num].id);
         currentFinger.show();
       }
       else {
         currentFinger.hide();
       }
     });
+  },
+
+  keyTapStart: function(gesture) {
+    console.log("HAND EVENT START");
+  },
+
+  keyTapEnd: function(gesture) {
+    console.log("HAND EVENT END");
   }
 
 });
 
 var FingerView = Backbone.View.extend({
   className: "finger",
-  events: {
-    'tap': 'pressKey'
-  },
+  top: false,
+  left: false,
+
+  // events: {
+  //   'keyTapStart': 'pressKey',
+  //   'keyTapEnd': 'releaseKey'
+  // },
 
   initialize: function() {
-    _.bindAll(this, 'render', 'hide', 'show', 'setPosition', 'setType');
+    _.bindAll(this, 'render', 'hide', 'show', 'setPosition', 'setType', 'setCurrentID', 'pressKey', 'releaseKey');
+
+    this.listenTo(Backbone, "keyTapStart", this.pressKey);
+    this.listenTo(Backbone, "keyTapEnd", this.releaseKey);
+
     classString = "finger-" + this.model.get("type");
     $(this.el).addClass(classString);
     // this.render();
@@ -214,7 +230,10 @@ var FingerView = Backbone.View.extend({
       classString = "finger-" + this.model.get("type");
       $(this.el).addClass(classString);
     }
+  },
 
+  setCurrentID: function(id) {
+    this.model.set("currentID", id);
   },
 
   hide: function() {
@@ -226,8 +245,39 @@ var FingerView = Backbone.View.extend({
   },
 
   setPosition: function(top, left) {
+    this.top = top;
+    this.left = left;
     $(this.el).css("top", top);
     $(this.el).css("left", left);
+  },
+
+  pressKey: function(gesture) {
+    // console.log("FINGER EVENT START " + gesture.id);
+    //if this finger is one of the ones in the gesture
+    if (_.indexOf(gesture.pointableIds, this.model.get("currentID")) > -1) {
+      console.log("FINGER EVENT START " + gesture.id);
+      if (this.top && this.left) {
+        //get the element this finger is hovering over
+        var offset = $("#content").offset();
+        var key = document.elementFromPoint(this.left + offset.left, this.top + offset.top);
+        this.model.set("currentKey", key);
+        if (key) {
+          $(key).trigger("mousedown");
+        }
+      }
+    }
+  },
+
+  releaseKey: function(gesture) {
+    //if this finger is one of the ones in the gesture
+    if (_.indexOf(gesture.pointableIds, this.model.get("currentID")) > -1) {
+      console.log("FINGER EVENT END " + gesture.id);
+      var key = this.model.get("currentKey");
+      if (key) {
+        $(key).trigger("mouseup");
+        this.model.set("currentKey", false);
+      }
+    }
   }
 })
 
