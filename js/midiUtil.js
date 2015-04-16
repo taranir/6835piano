@@ -16,8 +16,8 @@ $(document).ready(function() {
       },
       onsuccess: function() {
           MIDI.setVolume(0, 127);
-          alert("ready to play notes!");
-          playScale(39, 3, true);
+          console.log("ready to play notes!");
+          // playScale(39, 3, true);
       }
   });
 });
