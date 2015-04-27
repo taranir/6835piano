@@ -3,17 +3,22 @@ var handsView = new HandsView();
 var hoverView = new HoverView();
 var optionsView = new OptionsView();
 var prevGestures = false; //list of IDs of prev gestures
+var currentFrame = false;
+
+
+
 // Setup Leap loop with frame callback function
 var controllerOptions = {enableGestures: true};
 
 Leap.loop(controllerOptions, function(frame) {
 
   if (frame.valid) {
+    currentFrame = frame;
     var sortedFingers = frame.fingers.sort(function(a, b) {
       return a.id - b.id;
     });
     if (frame.hands.length > 0) {
-      $("#current-hand-height").text(frame.hands[0].screenPosition()[1]);
+      $("#current-hand-height").text(frame.hands[0].screenPosition()[1].toFixed(4));
       CURRENT_HAND_POSITION = frame.hands[0].screenPosition()[1];
     }
     

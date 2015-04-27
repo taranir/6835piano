@@ -1,4 +1,5 @@
 
+
 var OptionsView = Backbone.View.extend({
   el: $('#options'),
   events: {
@@ -14,18 +15,38 @@ var OptionsView = Backbone.View.extend({
     CURRENT_MODE = value;
     if (value == MODES.STATIC_THRESHOLD) {
       $("#hover-feedback").show();
+      $("#static-numbers").show();
     }
     else {
       $("#hover-feedback").hide();
+      $("#static-numbers").hide();
     }
   },
 
   setHandPosition: function() {
-    STATIC_THRESHOLD = CURRENT_HAND_POSITION - 5;
-    // STATIC_FLOOR = CURRENT_HAND_POSITION - 200;
-    var top = (STATIC_THRESHOLD / $(window).height()) * HOVER_BOX_HEIGHT;
-    $("#threshold-height").text(STATIC_THRESHOLD);
-    $("#threshold").css("top", top);
+    if (CURRENT_MODE == MODES.STATIC_THRESHOLD) {
+      STATIC_THRESHOLD = CURRENT_HAND_POSITION - 5;
+      var top = (STATIC_THRESHOLD / $(window).height()) * HOVER_BOX_HEIGHT;
+      $("#threshold-height").text(STATIC_THRESHOLD);
+      $("#threshold").css("top", top);
+    }
+    else if (CURRENT_MODE == MODES.PALM_THRESHOLD) {
+      //average all finger heights
+      if (currentFrame) {
+        var averageFingerHeight = (_.reduce(currentFrame.fingers, function(sum, finger) {
+          return sum + finger.stabilizedTipPosition[1];
+        }, 0)) / currentFrame.fingers.length;
+        console.log("average finger height: " + averageFingerHeight);
+        var averagePalmHeight = (_.reduce(currentFrame.hands, function(sum, hand) {
+          return sum + hand.palmPosition[1];
+        }, 0)) / currentFrame.hands.length;
+        console.log("average palm height: " + averagePalmHeight)
+        var averageDistance = averagePalmHeight - averageFingerHeight;
+        PALM_THRESHOLD = averageDistance + 20;
+
+      }
+     }
+
   }
 
 });

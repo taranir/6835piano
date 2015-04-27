@@ -1,15 +1,15 @@
 var HOVER_BOX_WIDTH = 500;
 var HOVER_BOX_HEIGHT = 300;
 
-var WHITE_KEY_WIDTH = 100;
-var BLACK_KEY_WIDTH = 80;
+var WHITE_KEY_WIDTH = 90;
+var BLACK_KEY_WIDTH = 70;
 var WHITE_KEY_HEIGHT = 600;
 var BLACK_KEY_HEIGHT = 270;
 var NUM_FINGERS = 10;
 var LEAPSCALE = 0.6;
 var SCREENPOSITION_YOFFSET = 200;
 var STATIC_THRESHOLD = 10000; //in screenPosition
-var PALM_THRESHOLD = 50; //in millimeters below palm
+var PALM_THRESHOLD = 20000; //in millimeters below palm
 
 var CURRENT_HAND_POSITION = 0;
 

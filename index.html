@@ -47,8 +47,11 @@
         <div class="option"><input type="radio" name="mode" value="PALM_AND_VELOCITY">Palm and Velocity</div>
       </form>
       <button id="calibrate-button" class="form-control">Calibrate default hand position</button>
-      <p>Current hand height: <span id="current-hand-height"></span></p>
-      <p>Threshold height: <span id="threshold-height"></span></p>
+      <div id="static-numbers" class="mode-numbers">
+        <span class="inline-text">Current hand height: <span id="current-hand-height"></span></span>
+        <span class="inline-text">Threshold height: <span id="threshold-height"></span></span>
+      </div>
+    </p>
     </div>
     <div id="content">
       <div id="hands"></div>
