@@ -195,12 +195,13 @@ var HandsView = Backbone.View.extend({
     var fingersUpList = []
     _.each(fingers, function(finger) {
       var fingerID = finger.id;
-      var fingerHeight = finger.stabilizedTipPosition[1]; //in mm
       //console.log(fingerHeight);
 
       /////////////////////////////////////////////////////////////////////////
       if (CURRENT_MODE == MODES.STATIC_THRESHOLD) {
-        if (fingerHeight < STATIC_THRESHOLD && fingerHeight > STATIC_FLOOR) {
+        var fingerHeight = finger.screenPosition()[1];
+        console.log(fingerHeight);
+        if (fingerHeight > STATIC_THRESHOLD) {
           fingersDownList.push(fingerID);
           console.log("detected down finger");
         }
@@ -336,28 +337,3 @@ var FingerView = Backbone.View.extend({
     }
   }
 })
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-var OptionsView = Backbone.View.extend({
-  el: $('#options'),
-  events: {
-    'change input[type=radio]' : 'selectedMode',
-    'click button' : 'setHandPosition'
-  },
-  initialize: function() {
-  },
-
-  selectedMode: function() {
-    var value = $('input[name=mode]:checked').val();
-    console.log(value);
-    CURRENT_MODE = value;
-  },
-
-  setHandPosition: function() {
-    STATIC_THRESHOLD = CURRENT_PALM_POSITION - 5;
-    STATIC_FLOOR = CURRENT_PALM_POSITION - 200;
-  }
-
-});

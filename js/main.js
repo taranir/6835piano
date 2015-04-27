@@ -1,5 +1,6 @@
 var keyboardView = new KeyboardView();
 var handsView = new HandsView();
+var hoverView = new HoverView();
 var optionsView = new OptionsView();
 var prevGestures = false; //list of IDs of prev gestures
 // Setup Leap loop with frame callback function
@@ -12,21 +13,15 @@ Leap.loop(controllerOptions, function(frame) {
       return a.id - b.id;
     });
     if (frame.hands.length > 0) {
-      $("#current-palm-position").text(frame.hands[0].palmPosition[1]);
-      CURRENT_PALM_POSITION = frame.hands[0].palmPosition[1];
+      $("#current-hand-height").text(frame.hands[0].screenPosition()[1]);
+      CURRENT_HAND_POSITION = frame.hands[0].screenPosition()[1];
     }
     
     handsView.setFingers(sortedFingers);
+    hoverView.setFingers(sortedFingers);
 
-    var d = new Date();
-    var time = d.getTime();
-    if (time % 50 == 0) {
-      handsView.processFingers(sortedFingers);
-    }
+    handsView.processFingers(sortedFingers);
     
-
-
-
 
     // //filter out only keyTap gestures
     // var gestures = _.filter(frame.gestures, function(gesture) {

@@ -33,6 +33,10 @@
     </div>
     <div id="hover-feedback">
       <h3><b>Hover Position</b></h3>
+      <div id="threshold">
+        <div id="threshold-text">Threshold</div>
+        <div id="threshold-line"></div>
+      </div>
     </div>
     <div id="options">
       <p>Select a tap detection mode</p>
@@ -43,7 +47,8 @@
         <div class="option"><input type="radio" name="mode" value="PALM_AND_VELOCITY">Palm and Velocity</div>
       </form>
       <button id="calibrate-button" class="form-control">Calibrate default hand position</button>
-      <p>Current palm position: <span id="current-palm-position"></span></p>
+      <p>Current hand height: <span id="current-hand-height"></span></p>
+      <p>Threshold height: <span id="threshold-height"></span></p>
     </div>
     <div id="content">
       <div id="hands"></div>
@@ -58,6 +63,7 @@
     <script type="text/javascript" src="js/setup.js"></script>
     <script type="text/javascript" src="js/models.js"></script>
     <script type="text/javascript" src="js/views.js"></script>
+    <script type="text/javascript" src="js/helperViews.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
   </body>
 </html>
