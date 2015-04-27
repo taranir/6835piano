@@ -5,7 +5,6 @@ body {
 
 #header {
   padding: 20px;
-  margin-bottom: 150px;
   margin-left: 80px;
 }
 
@@ -17,6 +16,22 @@ h1 {
 h2 {
   color: #694864;
   font-size: 28px;
+}
+
+#options {
+  margin: 50px;
+  margin-left: 100px;
+  color: #ede8e1;
+}
+
+.option {
+  display: inline-block;
+  width: 200px;
+  margin: 10px;
+}
+
+.option input {
+  margin: 5px;
 }
 
 #content {

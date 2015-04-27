@@ -1,5 +1,6 @@
 var keyboardView = new KeyboardView();
 var handsView = new HandsView();
+var optionsView = new OptionsView();
 var prevGestures = false; //list of IDs of prev gestures
 // Setup Leap loop with frame callback function
 var controllerOptions = {enableGestures: true};

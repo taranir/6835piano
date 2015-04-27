@@ -252,6 +252,7 @@ var FingerView = Backbone.View.extend({
     this.top = top;
     this.left = left;
     $(this.el).css("top", top);
+    var scrollOffset = $("#content").scrollLeft();
     $(this.el).css("left", left + scrollOffset);
   },
 
@@ -285,3 +286,21 @@ var FingerView = Backbone.View.extend({
   }
 })
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+var OptionsView = Backbone.View.extend({
+  el: $('#options'),
+  events: {
+    'change input[type=radio]' : 'selectedMode'
+  },
+  initialize: function() {
+  },
+
+  selectedMode: function() {
+    var value = $('input[name=mode]:checked').val();
+    console.log(value);
+    CURRENT_MODE = value;
+  }
+
+});
