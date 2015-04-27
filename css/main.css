@@ -61,7 +61,7 @@ h2 {
 
 
 #keyboard {
-  height: 600px;
+  height: 700px;
   width: 7040px;
   position: absolute;
   top: 0;
@@ -84,7 +84,7 @@ h2 {
   background-color: #ede8e1;
   border: 1px #D2CDC7 solid;
   width: 100px;
-  height: 500px;
+  height: 600px;
 }
 
 .black-key {
