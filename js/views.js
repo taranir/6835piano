@@ -142,7 +142,8 @@ var HandsView = Backbone.View.extend({
 
   initialize: function() {
     this.el = $("#hands");
-    _.bindAll(this, 'render', 'setFingers', 'addFinger', 'keyTapStart', 'keyTapEnd'); //every function that uses "this" as the current object should be in here
+    //every function that uses "this" as the current object should be in here
+    _.bindAll(this, 'render', 'setFingers', 'addFinger', 'keyTapStart', 'keyTapEnd', 'processFingers'); 
 
     var fingers = [];
     _.each(_.range(NUM_FINGERS), function(num) {
@@ -189,6 +190,43 @@ var HandsView = Backbone.View.extend({
     });
   },
 
+  processFingers: function(fingers) {
+    var fingersDownList = []; //list of finger IDs
+    var fingersUpList = []
+    _.each(fingers, function(finger) {
+      var fingerID = finger.id;
+      var fingerHeight = finger.stabilizedTipPosition[1]; //in mm
+      //console.log(fingerHeight);
+
+      /////////////////////////////////////////////////////////////////////////
+      if (CURRENT_MODE == MODES.STATIC_THRESHOLD) {
+        if (fingerHeight < STATIC_THRESHOLD && fingerHeight > STATIC_FLOOR) {
+          fingersDownList.push(fingerID);
+          console.log("detected down finger");
+        }
+        else {
+          fingersUpList.push(fingerID);
+          console.log("detected up finger");
+        }
+      }
+      /////////////////////////////////////////////////////////////////////////
+      else if (CURRENT_MODE == MODES.PALM_THRESHOLD) {
+        var palmHeight = finger.hand().palmPosition[1];
+
+      }
+      /////////////////////////////////////////////////////////////////////////
+      else if (CURRENT_MODE == MODES.VELOCITY) {
+
+      }
+      /////////////////////////////////////////////////////////////////////////
+      else if (CURRENT_MODE == MODES.PALM_AND_VELOCITY) {
+
+      }
+    });
+    Backbone.trigger("fingersDown", fingersDownList);
+    Backbone.trigger("fingersUp", fingersUpList);
+  },
+
   keyTapStart: function(gesture) {
     console.log("HAND EVENT START");
   },
@@ -198,6 +236,9 @@ var HandsView = Backbone.View.extend({
   }
 
 });
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 var FingerView = Backbone.View.extend({
   className: "finger",
@@ -210,10 +251,11 @@ var FingerView = Backbone.View.extend({
   // },
 
   initialize: function() {
-    _.bindAll(this, 'render', 'hide', 'show', 'setPosition', 'setType', 'setCurrentID', 'pressKey', 'releaseKey');
+    _.bindAll(this, 'render', 'hide', 'show', 'setPosition', 'setType', 'setCurrentID', 'pressKey', 'releaseKey',
+      'fingerDown', 'fingerUp');
 
-    this.listenTo(Backbone, "keyTapStart", this.pressKey);
-    this.listenTo(Backbone, "keyTapEnd", this.releaseKey);
+    this.listenTo(Backbone, "fingersDown", this.fingerDown);
+    this.listenTo(Backbone, "fingersUp", this.fingerUp);
 
     classString = "finger-" + this.model.get("type");
     $(this.el).addClass(classString);
@@ -256,32 +298,41 @@ var FingerView = Backbone.View.extend({
     $(this.el).css("left", left + scrollOffset);
   },
 
-  pressKey: function(gesture) {
-    // console.log("FINGER EVENT START " + gesture.id);
-    //if this finger is one of the ones in the gesture
-    if (_.indexOf(gesture.pointableIds, this.model.get("currentID")) > -1) {
-      // console.log("FINGER EVENT START " + gesture.id);
-      if (this.top && this.left) {
-        //get the element this finger is hovering over
-        var offset = $("#content").offset();
-        var key = document.elementFromPoint(this.left + offset.left, this.top + offset.top);
-        this.model.set("currentKey", key);
-        if (key) {
-          $(key).trigger("mousedown");
-        }
+  fingerDown: function(fingerIDs) {
+    if (_.indexOf(fingerIDs, this.model.get("currentID")) > -1) {
+      if (!this.model.get("pressed")) {
+        this.pressKey();
+        this.model.set("pressed", true);
       }
     }
   },
 
-  releaseKey: function(gesture) {
-    //if this finger is one of the ones in the gesture
-    if (_.indexOf(gesture.pointableIds, this.model.get("currentID")) > -1) {
-      // console.log("FINGER EVENT END " + gesture.id);
-      var key = this.model.get("currentKey");
-      if (key) {
-        $(key).trigger("mouseup");
-        this.model.set("currentKey", false);
+  fingerUp: function(fingerIDs) {
+    if (_.indexOf(fingerIDs, this.model.get("currentID")) > -1) {
+      if (this.model.get("pressed")) {
+        this.model.set("pressed", false);
+        this.releaseKey();
       }
+    }
+  },
+
+  pressKey: function() {
+    if (this.top && this.left) {
+      //get the element this finger is hovering over
+      var offset = $("#content").offset();
+      var key = document.elementFromPoint(this.left + offset.left, this.top + offset.top);
+      this.model.set("currentKey", key);
+      if (key) {
+        $(key).trigger("mousedown");
+      }
+    }    
+  },
+
+  releaseKey: function() {
+    var key = this.model.get("currentKey");
+    if (key) {
+      $(key).trigger("mouseup");
+      this.model.set("currentKey", false);
     }
   }
 })
@@ -292,7 +343,8 @@ var FingerView = Backbone.View.extend({
 var OptionsView = Backbone.View.extend({
   el: $('#options'),
   events: {
-    'change input[type=radio]' : 'selectedMode'
+    'change input[type=radio]' : 'selectedMode',
+    'click button' : 'setHandPosition'
   },
   initialize: function() {
   },
@@ -301,6 +353,11 @@ var OptionsView = Backbone.View.extend({
     var value = $('input[name=mode]:checked').val();
     console.log(value);
     CURRENT_MODE = value;
+  },
+
+  setHandPosition: function() {
+    STATIC_THRESHOLD = CURRENT_PALM_POSITION - 5;
+    STATIC_FLOOR = CURRENT_PALM_POSITION - 200;
   }
 
 });

@@ -1,13 +1,20 @@
-var WHITE_KEY_WIDTH = 80;
-var BLACK_KEY_WIDTH = 60;
-var WHITE_KEY_HEIGHT = 400;
-var BLACK_KEY_HEIGHT = 220;
+var WHITE_KEY_WIDTH = 100;
+var BLACK_KEY_WIDTH = 80;
+var WHITE_KEY_HEIGHT = 500;
+var BLACK_KEY_HEIGHT = 270;
 var NUM_FINGERS = 10;
 var LEAPSCALE = 0.6;
 var SCREENPOSITION_YOFFSET = 200;
+var STATIC_THRESHOLD = 0; //in millimeters above controller
+var STATIC_FLOOR = 0; //min distance above controller (below this, no keypresses are detected)
+var PALM_THRESHOLD = 50; //in millimeters below palm
+
+var CURRENT_PALM_POSITION = 0;
+
+
 var MODES = {
-    PALM_THRESHOLD : "PALM_THRESHOLD",
     STATIC_THRESHOLD : "STATIC_THRESHOLD",
+    PALM_THRESHOLD : "PALM_THRESHOLD",
     VELOCITY : "VELOCITY",
     PALM_AND_VELOCITY : "PALM_AND_VELOCITY"
 }

@@ -6,6 +6,7 @@ body {
 #header {
   padding: 20px;
   margin-left: 80px;
+  width: 600px;
 }
 
 h1 {
@@ -18,10 +19,29 @@ h2 {
   font-size: 28px;
 }
 
+#hover-feedback {
+  background-color: #555256;
+  width: 500px;
+  height: 300px;
+  position: absolute;
+  right: 30px;
+  top: 30px;
+}
+
+#hover-feedback h3 {
+  margin-left: 15px;
+  color: #3281ab;
+  font-size: 16px;
+}
+
 #options {
   margin: 50px;
   margin-left: 100px;
   color: #ede8e1;
+}
+
+#calibrate-button {
+  width: 300px;
 }
 
 .option {
@@ -53,7 +73,7 @@ h2 {
 
 
 #keyboard {
-  height: 400px;
+  height: 600px;
   width: 7040px;
   position: absolute;
   top: 0;
@@ -75,8 +95,8 @@ h2 {
 
   background-color: #ede8e1;
   border: 1px #D2CDC7 solid;
-  width: 80px;
-  height: 400px;
+  width: 100px;
+  height: 500px;
 }
 
 .black-key {
@@ -85,8 +105,8 @@ h2 {
 
   background-color: #1F1720;
   border: 1px #000000 solid;
-  width: 60px;
-  height: 220px;
+  width: 80px;
+  height: 270px;
 
 }
 
