@@ -3,6 +3,11 @@ var Finger = Backbone.Model.extend({
     currentID: false,
     currentKey: false,
     pressed: false,
+    screenPosition: false,
+    realPosition: false,
+    palmPosition: false,
+    velocity: false,
+    palmVelocity: false
   },
 
   initialize: function() {

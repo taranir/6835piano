@@ -26,7 +26,7 @@ Leap.loop(controllerOptions, function(frame) {
       hoverView.setFingers(sortedFingers);
     }
     
-
+    //handsView.smoothFingerPositions(sortedFingers);
     handsView.processFingers(sortedFingers); //check for keypresses
     
 

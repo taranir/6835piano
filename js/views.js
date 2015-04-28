@@ -143,6 +143,7 @@ var HandsView = Backbone.View.extend({
   initialize: function() {
     this.el = $("#hands");
     //every function that uses "this" as the current object should be in here
+    //_.bindAll(this, 'render', 'setFingers', 'addFinger', 'processFingers', 'smoothFingerPositions'); 
     _.bindAll(this, 'render', 'setFingers', 'addFinger', 'processFingers'); 
 
     var fingers = [];
@@ -169,6 +170,58 @@ var HandsView = Backbone.View.extend({
     $(this.el).append(fingerView.render().el);
   },
 
+  // smoothFingerPositions: function(fingers) {
+  //   var self = this;
+  //   _.each(fingers, function(finger) {
+  //     var currentFinger = self.collection.where({"currentID": finger.id})[0];
+  //     /////////////////////////////////
+  //     if (currentFinger.get("screenPosition")) {
+  //       var oldPosition = currentFinger.get("screenPosition");
+  //       var newPosition = ((2/3) * oldPosition) + ((1/3) * finger.screenPosition()[1]);
+  //       currentFinger.set("screenPosition", newPosition);
+  //     }
+  //     else {
+  //       currentFinger.set("screenPosition", finger.screenPosition()[1]);
+  //     }
+  //     /////////////////////////////////
+  //     if (currentFinger.get("realPosition")) {
+  //       var oldPosition = currentFinger.get("realPosition");
+  //       var newPosition = ((2/3) * oldPosition) + ((1/3) * finger.stabilizedTipPosition[1]);
+  //       currentFinger.set("screenPosition", newPosition);
+  //     }
+  //     else {
+  //       currentFinger.set("screenPosition", finger.screenPosition()[1]);
+  //     }
+  //     /////////////////////////////////
+  //     if (currentFinger.get("velocity")) {
+  //       var old = currentFinger.get("velocity");
+  //       var newVelocity = ((2/3) * old) + ((1/3) * finger.tipVelocity[1]);
+  //       currentFinger.set("screenPosition", newVelocity);      
+  //     }
+  //     else {
+  //       currentFinger.set("velocity", finger.tipVelocity[1]);
+  //     }
+  //     /////////////////////////////////
+  //     if (currentFinger.get("palmPosition")) {
+  //       var old = currentFinger.get("palmPosition");
+  //       var newPalmPosition = ((2/3) * old) + ((1/3) * finger.hand().palmPosition[1]);
+  //       currentFinger.set("palmPosition", newPalmPosition)
+  //     }
+  //     else {
+  //       currentFinger.set("palmPosition", finger.hand().palmPosition[1]);
+  //     }
+  //     /////////////////////////////////
+  //     if (currentFinger.get("palmVelocity")) {
+  //       var old = currentFinger.get("palmVelocity");
+  //       var newPalmVelocity = ((2/3) * old) + ((1/3) * finger.hand().palmVelocity[1]);
+  //       currentFinger.set("palmVelocity", newPalmVelocity)
+  //     }
+  //     else {
+  //       currentFinger.set("palmVelocity", finger.hand().palmVelocity[1]);
+  //     }
+  //   });
+  // },
+
   setFingers: function(fingers) {
     var fingerViews = this.fingerViews; // for scope of _.each loop
     var numShownFingers = fingers.length;
@@ -189,6 +242,60 @@ var HandsView = Backbone.View.extend({
       }
     });
   },
+
+  // processFingers: function() {
+  //     var fingersDownList = []; //list of finger IDs
+  //     var fingersUpList = []
+  //     _.each(this.collection.models, function(finger) {
+  //       if (finger.get("currentID")) {
+  //         var fingerID = finger.get("currentID");
+  //         //console.log(fingerHeight);
+
+  //         /////////////////////////////////////////////////////////////////////////
+  //         if (CURRENT_MODE == MODES.STATIC_THRESHOLD) {
+  //           var fingerHeight = finger.get("screenPosition");
+  //           if (fingerHeight > STATIC_THRESHOLD) {
+  //             fingersDownList.push(fingerID);
+  //           }
+  //           else {
+  //             fingersUpList.push(fingerID);
+  //           }
+  //         }
+  //         /////////////////////////////////////////////////////////////////////////
+  //         else if (CURRENT_MODE == MODES.PALM_THRESHOLD) {
+  //           var palmHeight = finger.get("palmPosition"); //in mm above controller
+  //           var fingerHeight = finger.get("realPosition");
+  //           //console.log("palmHeight: " + palmHeight + ", fingerHeight: " + fingerHeight);
+  //           if (palmHeight - fingerHeight > PALM_THRESHOLD) {
+  //             fingersDownList.push(fingerID);
+  //           }
+  //           else {
+  //             fingersUpList.push(fingerID);
+  //           }
+  //         }
+  //         /////////////////////////////////////////////////////////////////////////
+  //         else if (CURRENT_MODE == MODES.VELOCITY) {
+  //           var fingerVelocity = finger.get("velocity");
+  //           var palmVelocity = finger.get("palmVelocity");
+  //           console.log("finger: " + fingerVelocity + ", palm: " + palmVelocity + ", finger-palm: " + Math.abs(fingerVelocity-palmVelocity));
+  //           if (Math.abs(fingerVelocity - palmVelocity) > VELOCITY_THRESHOLD && fingerVelocity < 0) {
+  //             fingersDownList.push(fingerID);
+  //           }
+  //           else {
+  //             fingersUpList.push(fingerID);
+  //           }
+
+  //         }
+  //         /////////////////////////////////////////////////////////////////////////
+  //         else if (CURRENT_MODE == MODES.PALM_AND_VELOCITY) {
+
+  //         } 
+  //       }
+
+  //     });
+  //     Backbone.trigger("fingersDown", fingersDownList);
+  //     Backbone.trigger("fingersUp", fingersUpList);
+  //   },
 
   processFingers: function(fingers) {
     var fingersDownList = []; //list of finger IDs
