@@ -343,6 +343,19 @@ var HandsView = Backbone.View.extend({
       }
       /////////////////////////////////////////////////////////////////////////
       else if (CURRENT_MODE == MODES.PALM_AND_VELOCITY) {
+        var palmHeight = finger.hand().palmPosition[1]; //in mm above controller
+        var fingerHeight = finger.stabilizedTipPosition[1];
+        var fingerVelocity = finger.tipVelocity[1];
+        var palmVelocity = finger.hand().palmVelocity[1];
+
+        var palmModeDown = (palmHeight - fingerHeight > (3/4)*PALM_THRESHOLD);
+        var velocityModeDown = (Math.abs(fingerVelocity - palmVelocity) > (3/4)*VELOCITY_THRESHOLD && fingerVelocity < 0);
+        if (palmModeDown && velocityModeDown) {
+          fingersDownList.push(fingerID);
+        }
+        else {
+          fingersUpList.push(fingerID);
+        }
 
       }
     });
