@@ -82,3 +82,7 @@ var getKeyString = function(overall) {
                         return "G#/Ab"
         }
 }
+
+var convertVelocityToVolume = function(velocity) {
+    return 200;
+}

@@ -4,6 +4,7 @@ var hoverView = new HoverView();
 var optionsView = new OptionsView();
 var prevGestures = false; //list of IDs of prev gestures
 var currentFrame = false;
+var fingerVelocities = false;
 
 // Setup Leap loop with frame callback function
 var controllerOptions = {enableGestures: true};

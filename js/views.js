@@ -67,12 +67,12 @@ var KeyboardView = Backbone.View.extend({
 var KeyView = Backbone.View.extend({
   className: "key",
   events: {
-    'mousedown': 'highlight',
-    'mouseup': 'unhighlight',
+    'mousedown': 'press',
+    'mouseup': 'release',
   },
 
   initialize: function() {
-    _.bindAll(this, 'render', 'highlight');
+    _.bindAll(this, 'render', 'press', 'release');
   },
 
   render: function() {
@@ -80,11 +80,11 @@ var KeyView = Backbone.View.extend({
     return this;
   },
 
-  highlight: function() {
+  press: function(volume) {
     //defined in subclass
   },
 
-  unhighlight: function() {
+  release: function() {
     //defined in subclass
   }
 });
@@ -102,11 +102,11 @@ var WhiteKeyView = KeyView.extend({
     $(this.el).css("left", parseInt(this.model.get("typeNumber"))*WHITE_KEY_WIDTH+"px");
     return this;
   },
-  highlight: function() {
-    playNote(this.model.get("number"));
+  press: function(volume) {
+    playNote(this.model.get("number"), volume);
     $(this.el).addClass("highlighted-white-key");
   },
-  unhighlight: function() {
+  release: function() {
     stopNote(this.model.get("number"));
     $(this.el).removeClass("highlighted-white-key");
   }
@@ -119,11 +119,11 @@ var BlackKeyView = KeyView.extend({
     $(this.el).css("left", getBlackKeyPosition(this.model.get("typeNumber"), this.model.get("number"))+"px");
     return this;
   },
-  highlight: function() {
-    playNote(this.model.get("number"));
+  press: function(volume) {
+    playNote(this.model.get("number"), volume);
     $(this.el).addClass("highlighted-black-key");
   },
-  unhighlight: function() {
+  release: function() {
     stopNote(this.model.get("number"));
     $(this.el).removeClass("highlighted-black-key");
   }
@@ -193,8 +193,10 @@ var HandsView = Backbone.View.extend({
   processFingers: function(fingers) {
     var fingersDownList = []; //list of finger IDs
     var fingersUpList = []
+    var newFingerVelocities = {};
     _.each(fingers, function(finger) {
       var fingerID = finger.id;
+      newFingerVelocities.fingerID = finger.tipVelocity[1];
       //console.log(fingerHeight);
 
       /////////////////////////////////////////////////////////////////////////
@@ -239,6 +241,7 @@ var HandsView = Backbone.View.extend({
     });
     Backbone.trigger("fingersDown", fingersDownList);
     Backbone.trigger("fingersUp", fingersUpList);
+    fingerVelocities = newFingerVelocities;
   },
 
 
@@ -330,7 +333,9 @@ var FingerView = Backbone.View.extend({
       var key = document.elementFromPoint(this.left + offset.left, (this.top + offset.top - SCREENPOSITION_YOFFSET));
       this.model.set("currentKey", key);
       if (key) {
-        $(key).trigger("mousedown");
+        var id = this.model.get("currentID");
+        var volume = convertVelocityToVolume(fingerVelocities.id);
+        $(key).trigger("mousedown", volume);
       }
     }    
   },
