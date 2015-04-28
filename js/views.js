@@ -196,7 +196,7 @@ var HandsView = Backbone.View.extend({
     var newFingerVelocities = {};
     _.each(fingers, function(finger) {
       var fingerID = finger.id;
-      newFingerVelocities.fingerID = finger.tipVelocity[1];
+      newFingerVelocities[fingerID] = finger.tipVelocity[1];
       //console.log(fingerHeight);
 
       /////////////////////////////////////////////////////////////////////////
