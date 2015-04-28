@@ -339,7 +339,6 @@ var HandsView = Backbone.View.extend({
         else {
           fingersUpList.push(fingerID);
         }
-
       }
       /////////////////////////////////////////////////////////////////////////
       else if (CURRENT_MODE == MODES.PALM_AND_VELOCITY) {
@@ -356,7 +355,6 @@ var HandsView = Backbone.View.extend({
         else {
           fingersUpList.push(fingerID);
         }
-
       }
     });
     Backbone.trigger("fingersDown", fingersDownList);
