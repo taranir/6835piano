@@ -5,8 +5,6 @@ var optionsView = new OptionsView();
 var prevGestures = false; //list of IDs of prev gestures
 var currentFrame = false;
 
-
-
 // Setup Leap loop with frame callback function
 var controllerOptions = {enableGestures: true};
 

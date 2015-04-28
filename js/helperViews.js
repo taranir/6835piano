@@ -4,9 +4,12 @@ var OptionsView = Backbone.View.extend({
   el: $('#options'),
   events: {
     'change input[type=radio]' : 'selectedMode',
-    'click button' : 'setHandPosition'
+    'click button[id=calibrate-button]' : 'setHandPosition',
+    'click button[id=velocity-threshold-button]' : 'setVelocityThreshold'
   },
   initialize: function() {
+    $(".mode-options").hide();
+    $(".static-options").show();
   },
 
   selectedMode: function() {
@@ -14,12 +17,20 @@ var OptionsView = Backbone.View.extend({
     console.log(value);
     CURRENT_MODE = value;
     if (value == MODES.STATIC_THRESHOLD) {
-      $("#hover-feedback").show();
-      $("#static-numbers").show();
+      $(".mode-options").hide()
+      $(".static-options").show();
     }
-    else {
-      $("#hover-feedback").hide();
-      $("#static-numbers").hide();
+    else if (value == MODES.PALM_THRESHOLD) {
+      $(".mode-options").hide()
+      $(".palm-options").show();
+    }
+    else if (value == MODES.VELOCITY) {
+      $(".mode-options").hide()
+      $(".velocity-options").show();
+    }
+    else if (value == MODES.PALM_AND_VELOCITY) {
+      $(".mode-options").hide()
+      $(".palm-and-velocity-options").show();
     }
   },
 
@@ -30,7 +41,7 @@ var OptionsView = Backbone.View.extend({
       $("#threshold-height").text(STATIC_THRESHOLD);
       $("#threshold").css("top", top);
     }
-    else if (CURRENT_MODE == MODES.PALM_THRESHOLD) {
+    else if (CURRENT_MODE == MODES.PALM_THRESHOLD || CURRENT_MODE == MODES.PALM_AND_VELOCITY) {
       //average all finger heights
       if (currentFrame) {
         var averageFingerHeight = (_.reduce(currentFrame.fingers, function(sum, finger) {
@@ -43,10 +54,15 @@ var OptionsView = Backbone.View.extend({
         console.log("average palm height: " + averagePalmHeight)
         var averageDistance = averagePalmHeight - averageFingerHeight;
         PALM_THRESHOLD = averageDistance + 20;
-
       }
      }
+  },
 
+  setVelocityThreshold: function() {
+    if (CURRENT_MODE == MODES.VELOCITY || CURRENT_MODE == MODES.PALM_AND_VELOCITY) {
+      VELOCITY_THRESHOLD = $("#velocity-threshold-value").val();
+      console.log("set velocity threshold to " + VELOCITY_THRESHOLD);
+    }
   }
 
 });

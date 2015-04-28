@@ -216,3 +216,17 @@ h2 {
   margin-bottom: 10px;
   display: inline-block;
 }
+
+#velocity-threshold-setting {
+}
+
+#velocity-threshold-button {
+  width: 100px;
+  display: inline-block;
+}
+
+#velocity-threshold-value {
+  color: black;
+  margin: 10px;
+  padding: 3px;
+}

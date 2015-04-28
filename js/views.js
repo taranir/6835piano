@@ -223,9 +223,8 @@ var HandsView = Backbone.View.extend({
       else if (CURRENT_MODE == MODES.VELOCITY) {
         var fingerVelocity = finger.tipVelocity[1];
         var palmVelocity = finger.hand().palmVelocity[1];
-        //if finger is 5x as fast as palm?
-        if (fingerVelocity - palmVelocity > 10.0) {
-          console.log("finger: " + fingerVelocity + ", palm: " + palmVelocity + ", finger/palm: " + Math.abs(fingerVelocity/palmVelocity));
+        //console.log("finger: " + fingerVelocity + ", palm: " + palmVelocity + ", finger-palm: " + Math.abs(fingerVelocity-palmVelocity));
+        if (Math.abs(fingerVelocity - palmVelocity) > VELOCITY_THRESHOLD && fingerVelocity < 0) {
           fingersDownList.push(fingerID);
         }
         else {

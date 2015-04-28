@@ -10,6 +10,7 @@ var LEAPSCALE = 0.6;
 var SCREENPOSITION_YOFFSET = 200;
 var STATIC_THRESHOLD = 10000; //in screenPosition
 var PALM_THRESHOLD = 20000; //in millimeters below palm
+var VELOCITY_THRESHOLD = 100;
 
 var CURRENT_HAND_POSITION = 0;
 

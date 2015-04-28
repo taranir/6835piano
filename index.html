@@ -31,7 +31,7 @@
       <h1>Piano with Leap</h1>
       <h2>David Wong, Tian Mi</h2>
     </div>
-    <div id="hover-feedback">
+    <div id="hover-feedback" class="mode-options static-options">
       <h3><b>Hover Position</b></h3>
       <div id="threshold">
         <div id="threshold-text">Threshold</div>
@@ -46,10 +46,13 @@
         <div class="option"><input type="radio" name="mode" value="VELOCITY">Velocity</div>
         <div class="option"><input type="radio" name="mode" value="PALM_AND_VELOCITY">Palm and Velocity</div>
       </form>
-      <button id="calibrate-button" class="form-control">Calibrate default hand position</button>
-      <div id="static-numbers" class="mode-numbers">
+      <button id="calibrate-button" class="form-control mode-options static-options palm-options palm-and-velocity-options">Calibrate default hand position</button>
+      <div id="static-numbers" class="mode-numbers static-options mode-options">
         <span class="inline-text">Current hand height: <span id="current-hand-height"></span></span>
         <span class="inline-text">Threshold height: <span id="threshold-height"></span></span>
+      </div>
+      <div id="velocity-threshold-setting" class="mode-options velocity-options palm-and-velocity-options">
+        Velocity threshold: <input type="number" id="velocity-threshold-value" min="50" max="1000" step="5" value="100"> <button id="velocity-threshold-button" class="form-control">Submit</button>
       </div>
     </p>
     </div>
