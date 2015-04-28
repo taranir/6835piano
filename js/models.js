@@ -7,8 +7,7 @@ var Finger = Backbone.Model.extend({
     realPosition: false,
     palmPosition: false,
     velocity: false,
-    palmVelocity: false,
-    isPlaying: false
+    palmVelocity: false
   },
 
   initialize: function() {

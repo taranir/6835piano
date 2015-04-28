@@ -298,10 +298,13 @@ var HandsView = Backbone.View.extend({
   //   },
 
   processFingers: function(fingers) {
+    var self = this;
     var fingersDownList = []; //list of finger IDs
     var fingersUpList = []
     var newFingerVelocities = {};
     _.each(fingers, function(finger) {
+      var currentFinger = self.collection.where({"currentID": finger.id})[0];
+      var isPressed = currentFinger.get("pressed");
       var fingerID = finger.id;
       newFingerVelocities[fingerID] = finger.tipVelocity[1];
       //console.log(fingerHeight);
@@ -349,14 +352,30 @@ var HandsView = Backbone.View.extend({
 
         var palmModeDown = (palmHeight - fingerHeight > (3/4)*PALM_THRESHOLD);
         var velocityModeDown = (Math.abs(fingerVelocity - palmVelocity) > (3/4)*VELOCITY_THRESHOLD && fingerVelocity < 0);
-        if (palmModeDown && velocityModeDown) {
-          fingersDownList.push(fingerID);
+
+        // If it's already pressed, ignore velocity and just check threshold
+        if (isPressed) {
+          if (palmModeDown) {
+            fingersDownList.push(fingerID);
+          }
+          else {
+            fingersUpList.push(fingerID);
+            currentFinger.set("pressed", false);
+          }
         }
+        // Otherwise, make sure it's past the threshold and is fast enough
         else {
-          fingersUpList.push(fingerID);
+          if (palmModeDown && velocityModeDown) {
+            fingersDownList.push(fingerID);
+            currentFinger.set("pressed", true);
+          }
+          else {
+            fingersUpList.push(fingerID);
+          }
         }
       }
     });
+    console.log(fingersDownList);
     Backbone.trigger("fingersDown", fingersDownList);
     Backbone.trigger("fingersUp", fingersUpList);
     fingerVelocities = newFingerVelocities;
