@@ -84,5 +84,6 @@ var getKeyString = function(overall) {
 }
 
 var convertVelocityToVolume = function(velocity) {
-    return 200;
+    return 60;
+    //return Math.abs(velocity)/500*127;
 }
