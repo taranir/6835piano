@@ -80,7 +80,7 @@ var KeyView = Backbone.View.extend({
     return this;
   },
 
-  press: function(volume) {
+  press: function(e, volume) {
     //defined in subclass
   },
 
@@ -102,7 +102,7 @@ var WhiteKeyView = KeyView.extend({
     $(this.el).css("left", parseInt(this.model.get("typeNumber"))*WHITE_KEY_WIDTH+"px");
     return this;
   },
-  press: function(volume) {
+  press: function(e, volume) {
     playNote(this.model.get("number"), volume);
     $(this.el).addClass("highlighted-white-key");
   },
@@ -119,7 +119,7 @@ var BlackKeyView = KeyView.extend({
     $(this.el).css("left", getBlackKeyPosition(this.model.get("typeNumber"), this.model.get("number"))+"px");
     return this;
   },
-  press: function(volume) {
+  press: function(e, volume) {
     playNote(this.model.get("number"), volume);
     $(this.el).addClass("highlighted-black-key");
   },
@@ -225,7 +225,7 @@ var HandsView = Backbone.View.extend({
       else if (CURRENT_MODE == MODES.VELOCITY) {
         var fingerVelocity = finger.tipVelocity[1];
         var palmVelocity = finger.hand().palmVelocity[1];
-        //console.log("finger: " + fingerVelocity + ", palm: " + palmVelocity + ", finger-palm: " + Math.abs(fingerVelocity-palmVelocity));
+        console.log("finger: " + fingerVelocity + ", palm: " + palmVelocity + ", finger-palm: " + Math.abs(fingerVelocity-palmVelocity));
         if (Math.abs(fingerVelocity - palmVelocity) > VELOCITY_THRESHOLD && fingerVelocity < 0) {
           fingersDownList.push(fingerID);
         }
