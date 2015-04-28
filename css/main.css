@@ -11,17 +11,17 @@ body {
 
 h1 {
   color: #e8e0ba;
-  font-size: 56px;
+  font-size: 36px;
 }
 
 h2 {
   color: #694864;
-  font-size: 28px;
+  font-size: 18px;
 }
 
 
 #options {
-  margin: 50px;
+  margin: 10px;
   margin-left: 100px;
   color: #ede8e1;
 }
@@ -147,8 +147,8 @@ h2 {
 
 #hover-feedback {
   background-color: #555256;
-  width: 500px;
-  height: 300px;
+  width: 450px;
+  height: 250px;
   position: absolute;
   right: 30px;
   top: 30px;

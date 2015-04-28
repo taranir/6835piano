@@ -437,7 +437,7 @@ var FingerView = Backbone.View.extend({
     if (this.top && this.left) {
       //get the element this finger is hovering over
       var offset = $("#content").offset();
-      var key = document.elementFromPoint(this.left + offset.left, (this.top + offset.top - SCREENPOSITION_YOFFSET));
+      var key = document.elementFromPoint(this.left + offset.left, (this.top + offset.top));
       this.model.set("currentKey", key);
       if (key) {
         var id = this.model.get("currentID");
