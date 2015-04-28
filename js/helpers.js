@@ -84,6 +84,16 @@ var getKeyString = function(overall) {
 }
 
 var convertVelocityToVolume = function(velocity) {
-    return 60;
-    //return Math.abs(velocity)/500*127;
+    var volume = Math.abs(velocity)/500*127;
+    /**
+    console.log("VOLUME 1:", volume);
+    if (volume < 20) {
+        volume = 0;
+    }
+    else if (volume < 40) {
+        volume = 40;
+    }
+    console.log("VOLUME 2:", volume);
+    **/
+    return volume;
 }

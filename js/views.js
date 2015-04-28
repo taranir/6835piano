@@ -454,7 +454,8 @@ var FingerView = Backbone.View.extend({
       this.model.set("currentKey", key);
       if (key) {
         var id = this.model.get("currentID");
-        var volume = convertVelocityToVolume(fingerVelocities.id);
+
+        var volume = convertVelocityToVolume(fingerVelocities[id]);
         $(key).trigger("mousedown", volume);
       }
     }    
