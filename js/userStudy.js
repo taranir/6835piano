@@ -11,14 +11,12 @@ var C = "C";
 var G = "G";
 
 var sequence = [E, D, C, D, E, E, E, D, D, D, E, G, G, E, D, C, D, E, E, E, D, D, E, D, C]
+var errorsMade;
 
 $(document).ready(function() {
-  var i = 0;
-  nextKey();
-
-  function nextKey() {
+  var nextKey = function() {
     $(".key:nth-child(" + notesToNumbers[sequence[i]] + ")").addClass("to-hit");
-    $(".key:nth-child(" + notesToNumbers[sequence[i]] + ")").one("mouseup", function() {
+    $(".to-hit").one("mouseup", function() {
       $(this).removeClass("to-hit");
       i++;
       if (i < sequence.length) {
@@ -26,8 +24,18 @@ $(document).ready(function() {
       }
       else {
         alert("You completed the task!");
+        $(".key").off("click", errorHandler);
+        console.log("Errors: ", errorsMade - sequence.length);
       }
     });
   }
 
+  var errorHandler = function() {
+    errorsMade += 1;
+  }
+
+  var i = 0;
+  errorsMade = 1;
+  $(".key").on("click", errorHandler);
+  nextKey();
 });
