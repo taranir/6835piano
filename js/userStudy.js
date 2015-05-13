@@ -24,8 +24,10 @@ $(document).ready(function() {
       }
       else {
         alert("You completed the task!");
-        $(".key").off("click", errorHandler);
+        $(".key").off("mousedown", errorHandler);
+        var end = new Date().getTime();
         console.log("Errors: ", errorsMade - sequence.length);
+        console.log("Time: ", end - start);
       }
     });
   }
@@ -36,6 +38,7 @@ $(document).ready(function() {
 
   var i = 0;
   errorsMade = 1;
-  $(".key").on("click", errorHandler);
+  $(".key").on("mousedown", errorHandler);
+  var start = new Date().getTime();
   nextKey();
 });
